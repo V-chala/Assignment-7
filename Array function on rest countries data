@@ -1,0 +1,52 @@
+// Fetching the countries data from the API
+fetch('https://restcountries.com/v3.1/all')
+    .then(response => response.json())
+    .then(data => {
+        // 1. Get all the countries from Asia continent / region using Filter method
+
+        const asianCountries = data.filter(country => country.region === 'Asia');
+        console.log('Asian Countries:', asianCountries);
+
+        // 2. Get all the countries with a population of less than 2 lakhs using Filter method
+
+        const countriesWithLessPopulation = data.filter(country => country.population < 200000);
+        console.log('Countries with population less than 2 lakhs:', countriesWithLessPopulation);
+
+        // 3. Print the following details name, capital, flag, using forEach method
+
+        data.forEach(country => {
+            console.log(`Name: ${country.name.common}, Capital: ${country.capital ? country.capital[0] : 'N/A'}, Flag: ${country.flags ? country.flags[0] : 'N/A'}`);
+        });
+
+        // 4. Print the total population of countries using reduce method
+
+        const totalPopulation = data.reduce((total, country) => total + country.population, 0);
+        console.log('Total Population of all countries:', totalPopulation);
+
+        // 5. Print the country that uses US dollars as currency
+
+        const countriesUsingUSD = data.filter(country => {
+            const currencies = country.currencies;
+            if (currencies) {
+                return Object.values(currencies).some(currency => currency.name === 'United States dollar');
+            }
+            return false;
+        });
+        console.log('Countries using US dollars as currency:', countriesUsingUSD.map(country => country.name.common));
+    })
+    .catch(error => console.error('Error fetching the data:', error));
+
+
+
+
+
+
+
+// Explanation:
+
+// Fetch Data: Fetch the countries data from the REST Countries API.
+// Filter Asian Countries: Filter out the countries from the Asian continent.
+// Filter by Population: Filter out the countries with a population less than 200,000.
+// Print Details: Use forEach to print each country's name, capital, and flag.
+// Calculate Total Population: Use reduce to calculate the total population of all countries.
+// Filter by Currency: Filter out the countries that use the US dollar as their currency.
